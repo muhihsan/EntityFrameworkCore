@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
 using SamuraiApp.Data;
@@ -22,7 +23,15 @@ namespace SomeUI
             //RetrieveAndUpdateMultipleSamurais();
             //MultipleOperations();
             //QueryAndUpdateSamuraiDisconnected();
-            QuerAndUpdateDisconnectedBattle();
+            //QuerAndUpdateDisconnectedBattle();
+            //RawQuery();
+        }
+
+        private static void RawQuery()
+        {
+            var samurais = _context.Samurais.FromSql("Select * from Samurais").ToList();
+            samurais.ForEach(samurai => Console.WriteLine(samurai.Name));
+            Console.WriteLine();
         }
 
         private static void QuerAndUpdateDisconnectedBattle()
