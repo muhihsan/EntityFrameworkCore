@@ -9,6 +9,7 @@ namespace SamuraiApp.Data
         public DbSet<Battle> Battles { get; set; }
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<SamuraiBattle> SamuraiBattles { get; set; }
+        public DbSet<SecretIdentity> SecretIdentities { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
