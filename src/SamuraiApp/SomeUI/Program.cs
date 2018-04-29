@@ -12,6 +12,19 @@ namespace SomeUI
         static void Main(string[] args)
         {
             //InsertSamurai();
+            //InsertMultipleSamurais();
+        }
+
+        private static void InsertMultipleSamurais()
+        {
+            var samuraiHerfi = new Samurai { Name = "Herfi" };
+            var samuraiNina = new Samurai { Name = "Nina" };
+            using (var context = new SamuraiContext())
+            {
+                context.GetService<ILoggerFactory>().AddProvider(new MyLoggerProvider());
+                context.Samurais.AddRange(samuraiHerfi, samuraiNina);
+                context.SaveChanges();
+            }
         }
 
         private static void InsertSamurai()
