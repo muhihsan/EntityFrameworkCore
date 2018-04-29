@@ -26,6 +26,24 @@ namespace SomeUI
             //QuerAndUpdateDisconnectedBattle();
             //RawQuery();
             //RawSqlQuery();
+            //QueryWithNoSql();
+        }
+
+        /// <summary>
+        /// EF core smart enough to get all samurais and perform reverse after that
+        /// </summary>
+        private static void QueryWithNoSql()
+        {
+            var samurais = _context.Samurais
+                .Select(samurai => new { newName = ReverseString(samurai.Name) })
+                .ToList();
+            samurais.ForEach(s => Console.WriteLine(s.newName));
+        }
+
+        private static string ReverseString(string value)
+        {
+            var stringChar = value.AsEnumerable();
+            return string.Concat(stringChar.Reverse());
         }
 
         /// <summary>
