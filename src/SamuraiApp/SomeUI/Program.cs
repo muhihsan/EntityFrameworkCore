@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -27,6 +29,29 @@ namespace SomeUI
             //RawQuery();
             //RawSqlQuery();
             //QueryWithNoSql();
+            //RawSqlCommand();
+            //RawSqlCommandWithOutput();
+        }
+
+        private static void RawSqlCommand()
+        {
+            var affected = _context.Database.ExecuteSqlCommand(
+                "update samurais set Name=REPLACE(Name,'San','Nan')");
+            Console.WriteLine($"Affected rows {affected}");
+        }
+
+        private static void RawSqlCommandWithOutput()
+        {
+            var procResult = new SqlParameter
+            {
+                ParameterName = "@procResult",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Output,
+                Size = 50
+            };
+            _context.Database.ExecuteSqlCommand(
+                "exec FindLongestName @procResult OUT", procResult);
+            Console.WriteLine($"Longest name: {procResult.Value}");
         }
 
         /// <summary>
@@ -51,6 +76,12 @@ namespace SomeUI
         /// </summary>
         private static void RawSqlQuery()
         {
+            //var samurais = _context.Samurais
+            //    .FromSql("Select * from Samurais")
+            //    .OrderByDescending(samurai => samurai.Name)
+            //    .ToList();
+            //samurais.ForEach(samurai => Console.WriteLine(samurai.Name));
+
             var namePart = "San";
             var samurais = _context.Samurais
                 .FromSql("EXEC FilterSamuraiByNamePart {0}", namePart)
