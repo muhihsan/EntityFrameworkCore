@@ -13,7 +13,10 @@ namespace SamuraiApp.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server = (localdb)\\mssqllocaldb; Database = SamuraiData; Trusted_Connection = True;");
+            optionsBuilder.UseSqlServer(
+                "Server = (localdb)\\mssqllocaldb; Database = SamuraiData; Trusted_Connection = True;",
+                options => options.MaxBatchSize(30));
+            //optionsBuilder.EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

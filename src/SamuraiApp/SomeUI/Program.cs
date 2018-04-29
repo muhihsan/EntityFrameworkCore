@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
 using SamuraiApp.Data;
@@ -9,42 +8,41 @@ namespace SomeUI
 {
     class Program
     {
+        private static SamuraiContext _context = new SamuraiContext();
+
         static void Main(string[] args)
         {
+            _context.GetService<ILoggerFactory>().AddProvider(new MyLoggerProvider());
             //InsertSamurai();
             //InsertMultipleSamurais();
-            SimpleSamuraiQuery();
+            //SimpleSamuraiQuery();
+            MoreQueries();
+        }
+
+        private static void MoreQueries()
+        {
+            var samurais = _context.Samurais.Where(s => s.Name == "Ihsan").ToList();
         }
 
         private static void SimpleSamuraiQuery()
         {
-            using (var context = new SamuraiContext())
-            {
-                var samurais = context.Samurais.ToList();
-            }
+            var samurais = _context.Samurais.ToList();
         }
 
         private static void InsertMultipleSamurais()
         {
             var samuraiHerfi = new Samurai { Name = "Herfi" };
             var samuraiNina = new Samurai { Name = "Nina" };
-            using (var context = new SamuraiContext())
-            {
-                context.GetService<ILoggerFactory>().AddProvider(new MyLoggerProvider());
-                context.Samurais.AddRange(samuraiHerfi, samuraiNina);
-                context.SaveChanges();
-            }
+            _context.Samurais.AddRange(samuraiHerfi, samuraiNina);
+            _context.SaveChanges();
         }
 
         private static void InsertSamurai()
         {
             var samurai = new Samurai { Name = "Ihsan" };
-            using (var context = new SamuraiContext())
-            {
-                context.GetService<ILoggerFactory>().AddProvider(new MyLoggerProvider());
-                context.Samurais.Add(samurai);
-                context.SaveChanges();
-            }
+            _context.GetService<ILoggerFactory>().AddProvider(new MyLoggerProvider());
+            _context.Samurais.Add(samurai);
+            _context.SaveChanges();
         }
     }
 }
