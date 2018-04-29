@@ -20,7 +20,31 @@ namespace SomeUI
             //MoreQueries();
             //RetrieveAndUpdateSamurai();
             //RetrieveAndUpdateMultipleSamurais();
-            MultipleOperations();
+            //MultipleOperations();
+            //QueryAndUpdateSamuraiDisconnected();
+            QuerAndUpdateDisconnectedBattle();
+        }
+
+        private static void QuerAndUpdateDisconnectedBattle()
+        {
+            var battle = _context.Battles.FirstOrDefault();
+            battle.EndDate = new DateTime(1754, 12, 31);
+            using (var contextNewAppInstance = new SamuraiContext())
+            {
+                contextNewAppInstance.Battles.Update(battle);
+                contextNewAppInstance.SaveChanges();
+            }
+        }
+
+        private static void QueryAndUpdateSamuraiDisconnected()
+        {
+            var samurai = _context.Samurais.FirstOrDefault(s => s.Name == "Nina");
+            samurai.Name += "San";
+            using (var contextNewAppInstance = new SamuraiContext())
+            {
+                contextNewAppInstance.Samurais.Update(samurai);
+                contextNewAppInstance.SaveChanges();
+            }
         }
 
         private static void MultipleOperations()
