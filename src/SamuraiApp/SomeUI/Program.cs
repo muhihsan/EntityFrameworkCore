@@ -25,11 +25,31 @@ namespace SomeUI
             //QueryAndUpdateSamuraiDisconnected();
             //QuerAndUpdateDisconnectedBattle();
             //RawQuery();
+            //RawSqlQuery();
         }
 
+        /// <summary>
+        /// Stored Procedure aren't composable
+        /// </summary>
+        private static void RawSqlQuery()
+        {
+            var namePart = "San";
+            var samurais = _context.Samurais
+                .FromSql("EXEC FilterSamuraiByNamePart {0}", namePart)
+                .OrderByDescending(s => s.Name)
+                .ToList();
+
+            samurais.ForEach(samurai => Console.WriteLine(samurai.Name));
+        }
+
+        /// <summary>
+        /// This OrderBy will be composed into SQL query
+        /// </summary>
         private static void RawQuery()
         {
-            var samurais = _context.Samurais.FromSql("Select * from Samurais").ToList();
+            var samurais = _context.Samurais.FromSql("Select * from Samurais")
+                .OrderBy(samurai => samurai.Name)
+                .ToList();
             samurais.ForEach(samurai => Console.WriteLine(samurai.Name));
             Console.WriteLine();
         }
