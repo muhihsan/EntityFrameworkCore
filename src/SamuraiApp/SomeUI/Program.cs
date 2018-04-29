@@ -13,6 +13,15 @@ namespace SomeUI
         {
             //InsertSamurai();
             //InsertMultipleSamurais();
+            SimpleSamuraiQuery();
+        }
+
+        private static void SimpleSamuraiQuery()
+        {
+            using (var context = new SamuraiContext())
+            {
+                var samurais = context.Samurais.ToList();
+            }
         }
 
         private static void InsertMultipleSamurais()
