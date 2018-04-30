@@ -125,6 +125,9 @@ namespace SomeUI
             }
         }
 
+        /// <summary>
+        /// All commands will be combined into 1 message with the new batching support
+        /// </summary>
         private static void MultipleOperations()
         {
             var samurai = _context.Samurais.FirstOrDefault();
