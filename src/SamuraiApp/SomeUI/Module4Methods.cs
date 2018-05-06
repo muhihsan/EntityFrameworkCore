@@ -1,5 +1,12 @@
-﻿using SamuraiApp.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Logging;
+using SamuraiApp.Data;
+using SamuraiApp.Domain;
 using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 
 namespace SomeUI
 {
